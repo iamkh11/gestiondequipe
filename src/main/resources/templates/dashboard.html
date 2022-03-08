@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!--start head -->
+<div th:replace="fragments/head :: head"></div>
+<!--end head -->
+
+<body class="bg-theme bg-theme2">
+	<!-- wrapper -->
+	<div class="wrapper">
+        <!--start header -->
+		<div th:replace="fragments/header :: header"></div>
+		<!--end header -->
+		<div class="authentication-lock-screen d-flex align-items-center justify-content-center">
+			<div class="card shadow-none bg-transparent">
+				<div class="card-body p-md-5 text-center">
+					
+                    
+                    <h2 class="text-white"> Bonjour <span th:inline="text" class="text-warning"> [[${#httpServletRequest.remoteUser}]]</span> </br></h2>
+					<h5 class="text-white">Voici votre tableau de bord d'administration</h5>
+                    <b th:text="${#execInfo.now.time}"></b>
+					<div class="">
+						<img src="assets/images/icons/user.png" class="mt-5" width="120" alt="" />
+					</div>
+					<p class="mt-2 text-white">Administrateur</p>
+					<div class="mb-3 mt-3">
+						
+					</div>
+					<div >
+                        <a type="button" href="/calendrier" class="btn btn-light">Gestion Calendrier</a>&MediumSpace;
+						<a type="button" href="/equipes" class="btn btn-light">Gestion Equipes</a>&MediumSpace;
+                        <a type="button" href="/joueurs" class="btn btn-light">Gestion Joueurs</a>&MediumSpace;
+                        <a type="button" href="/staff" class="btn btn-light">Gestion Staff</a>&MediumSpace;
+                        <a type="button" href="/postes" class="btn btn-light">Gestion Postes</a>&MediumSpace;
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end wrapper -->
+
+
+
+
+<!--plugins-->
+<script src="assets/js/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<!--plugins-->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+
+
+</body>
+
+</html>

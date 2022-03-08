@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!--start head -->
+<div th:replace="fragments/head :: head"></div>
+<!--end head -->
+
+<body class="bg-theme bg-theme9">
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--start header -->
+		<div th:replace="fragments/header :: header"></div>
+		<!--end header -->
+		<!--navigation-->
+		<div th:replace="fragments/nav :: nav"></div>
+		<!--end navigation-->
+
+
+
+
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">Calendrier</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Calendrier des Matches :</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						<div class="btn-group">
+							
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+								<i class="bx bx-add-to-queue"> Ajouter</i></button> 
+						
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Add-->
+
+				<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+					<div class="modal-dialog modal-fullscreen">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Ajouter un nouveau match:</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="col-xl-7 mx-auto">
+								<div class="card">
+									<div class="card-body">
+										<div class="p-4 border rounded">
+											<form class="row g-3 needs-validation" novalidate 
+											action="/savematch" method="get">
+											
+                                            <div class="col-md-6">
+                                                <label for="validationCustom04" class="form-label">Home Team Logo</label>
+                                                <select class="form-select" name="home_team_logo" id="select" required>
+                                                    
+                                                    <option value="">Select Team Logo...</option>
+                                                    <option th:if="${teams.team_name == 'Tunisia CF'}" th:each="teams : ${teams}"
+                                                      th:value="${teams.logo_URL}" th:text="${teams.team_name}"></option>
+                                                    
+                                                </select>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom04" class="form-label">Away Team Logo</label>
+                                                <select class="form-select" name="away_team_logo" id="select" required>
+                                                    
+                                                    <option value="">Select Team Logo...</option>
+                                                    <option th:if="${teams.team_name != 'Tunisia CF'}" th:each="teams : ${teams}"
+                                                      th:value="${teams.logo_URL}" th:text="${teams.team_name}"></option>
+                                                    
+                                                </select>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom04" class="form-label">Home Team</label>
+                                                <select class="form-select" name="home_team" id="select" required>
+                                                    
+                                                    <option value="">Select Team...</option>
+                                                    <option th:if="${teams.team_name == 'Tunisia CF'}" th:each="teams : ${teams}"
+                                                      th:value="${teams.team_name}" th:text="${teams.team_name}"></option>
+                                                    
+                                                </select>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom04" class="form-label">Away Team</label>
+                                                <select class="form-select" name="away_team" id="select" required>
+                                                    
+                                                    <option value="">Select Team...</option>
+                                                    <option  th:if="${teams.team_name != 'Tunisia CF'}" th:each="teams : ${teams}"
+                                                      th:value="${teams.team_name}" th:text="${teams.team_name}"></option>
+                                                    
+                                                </select>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom02" class="form-label">Date</label>
+                                                <input type="date" class="form-control"  name="date" 
+                                                 required>
+                                                 <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom02" class="form-label">Time</label>
+                                                <input type="time" class="form-control"  name="time" 
+                                                 required>
+                                                 <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom01" class="form-label">Stadium</label>
+                                                <input type="text" class="form-control"  name="stadium" 
+                                                placeholder="Stadium" required>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for="validationCustom04" class="form-label">Competition</label>
+                                                <select class="form-select" name="competition" id="select" required>
+                                                    
+                                                    <option value="">Select Competition...</option>
+                                                    <option value="Premier League">Premier League</option>
+                                                    <option value="Champions League">Champions League</option>
+                                                    <option value="EFL Cup">EFL Cup</option>
+                                                    
+                                                </select>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <label for="validationCustom02" class="form-label">Status</label>
+                                                <input type="text" class="form-control" placeholder="Status" name="status" 
+                                                 required>
+                                                <div class="invalid-feedback">required</div>
+                                            </div>
+												
+												
+												
+												
+											
+										</div>
+									</div>
+								</div>
+								</div>
+
+								
+							</div>
+							<div class="modal-footer">
+								<button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+								<button type="submit" class="btn btn-primary">Save</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Modal -->
+
+
+				<!--end breadcrumb-->
+                
+        <div class="card radius-10">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h5 class="mb-0">Calendrier des Matches</h5>
+                    </div>
+                    <div class="font-22 ms-auto"><i class='bx bx-dots-horizontal-rounded'></i>
+                    </div>
+                </div>
+                <hr/>
+                <div class="table-responsive">
+					<table id="example2" class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+								<th>Date/time</th>
+                                
+                                <th>stadium</th>
+                                <th>#HomeTeam</th>
+                                <th>status</th>
+                                <th>#AwayTeam</th>
+                                <th>competition</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>   
+                         
+                          
+                            <tr th:each="match : ${match}">
+       
+                                <td>
+                                    [[${match.time}]] &MediumSpace; [[${match.date}]]
+                                </td>
+                                
+                                
+                                <td>[[${match.stadium}]]</td>
+                                
+								<td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="recent-product-img">
+                                          
+                                            <img th:src="${match.home_team_logo}" alt="">
+										
+                                        </div>
+                                        <div class="ms-2">
+                                            <h6 class="mb-1 font-14">[[${match.home_team}]]</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                        <span> [[${match.status}]]</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="recent-product-img">
+                                            <img th:src="${match.away_team_logo}" alt="">
+                                        </div>
+                                        <div class="ms-2">
+                                            <h6 class="mb-1 font-14">[[${match.away_team}]]</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>[[${match.competition}]]</td>
+                                
+
+
+                                
+                               
+                                <td>
+                                    <div class="d-flex order-actions">	
+										<button type="button" class="btn btn-warning" data-bs-toggle="modal"
+														th:attr="data-bs-target='#editModal'+*{match.id}">
+															<i class="bx bx-cog"></i>
+										</button> &ThickSpace;
+
+										<button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+														th:attr="data-bs-target='#deleteModal'+*{match.id}">
+														<i class='bx bx-shield-x'></i>
+															
+										</button>
+
+										<!-- Modal Delete-->
+										<div class="modal fade" th:id="*{'deleteModal'+{match.id}}" tabindex="-1" aria-hidden="true">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content bg-danger">
+													<div class="modal-header">
+														<h5 class="modal-title">Confirmation :</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">Warning! : This item will</br>be deleted permanently!!</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+														<form action="/deletematch">  
+															<input type="hidden" name="id" th:value="${match.id}" />
+														<input type="submit" class="btn btn-dark" value="Supprimer" />
+														
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Modal -->
+
+
+										<!-- Modal Edit-->
+
+                                        <div class="modal fade" th:id="*{'editModal'+{match.id}}" tabindex="-1" aria-hidden="true">
+                                            <div class="modal-dialog modal-fullscreen">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Modifier un match :</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="col-xl-7 mx-auto">
+                                                        <div class="card">
+                                                            <div class="card-body">
+                                                                <div class="p-4 border rounded">
+                                                                    <form class="row g-3 needs-validation" novalidate 
+                                                                    action="/updatematch" method="get">
+                                                                    <div class="form-label">
+
+                                                                        <input  type="hidden" th:value="${match.id}" class="form-control" id="id" name="id"/>
+                                                                    </div>
+                                                                        
+                                                                    <div class="col-6">
+                                                                        <label for="validationCustom02" class="form-label">#HomeTeam</label>
+                                                                        <input type="text" th:value="${match.home_team}" class="form-control"  name="status" 
+                                                                         disabled>
+                                                                        
+                                                                        
+                                                                        
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <label for="validationCustom02" class="form-label">#AwayTeam</label>
+                                                                        <input type="text" th:value="${match.away_team}" class="form-control"  name="status" 
+                                                                        disabled>
+                                                                        
+                                                                        
+                                                                       
+                                                                    </div>
+
+                                                                        <div class="col-md-6">
+                                                                            <label for="validationCustom02" class="form-label">Date</label>
+                                                                            <input type="date" th:value="${match.date}" class="form-control"  name="date" 
+                                                                             required>
+                                                                             <div class="invalid-feedback">required</div>
+                                                                        </div>
+                                        
+                                                                        <div class="col-md-6">
+                                                                            <label for="validationCustom02" class="form-label">Time</label>
+                                                                            <input type="time" class="form-control" th:value="${match.time}" name="time" 
+                                                                             required>
+                                                                             <div class="invalid-feedback">required</div>
+                                                                        </div>
+                                        
+                                                                        <div class="col-md-6">
+                                                                            <label for="validationCustom01" class="form-label">Stadium</label>
+                                                                            <input type="text" class="form-control"  name="stadium" 
+                                                                            th:value="${match.stadium}" required>
+                                                                            <div class="invalid-feedback">required</div>
+                                                                        </div>
+                                        
+                                                                       
+                                        
+                                                                        <div class="col-6">
+                                                                            <label for="validationCustom02" class="form-label">Status</label>
+                                                                            <input type="text" th:value="${match.status}" class="form-control"  name="status" 
+                                                                             required>
+                                                                            <div class="invalid-feedback">required</div>
+                                                                        </div>
+                                                                        
+                                                                        
+                                                                        
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- End Modal -->
+
+                                    </div>
+                                </td>
+                            </tr>
+                         
+                        </tbody>
+						<tfoot>
+											
+							<tr>
+								
+								<th>Date/time</th>
+                              
+                                <th>stadium</th>
+                                <th>#HomeTeam</th>
+                                <th>status</th>
+                                <th>#AwayTeam</th>
+                                <th>competition</th>
+                                <th>Action</th>
+							</tr>
+						</tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+    
+    </div>
+    </div>
+<!--end page wrapper -->
+
+
+
+
+
+
+
+
+<!--start overlay-->
+<div class="overlay toggle-icon"></div>
+<!--end overlay-->
+<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+<!--End Back To Top Button-->
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer -->
+
+</div>
+<!--end wrapper-->
+
+
+
+	<!-- Bootstrap JS -->
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+
+	<script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<!--app JS-->
+	<script src="assets/js/app.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			var table = $('#example2').DataTable( {
+				lengthChange: true,
+				
+			} );
+		
+			table.buttons().container()
+				.appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+		} );
+	</script>
+	
+
+
+</body>
+
+</html>

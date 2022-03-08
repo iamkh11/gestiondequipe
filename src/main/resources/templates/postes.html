@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!--start head -->
+<div th:replace="fragments/head :: head"></div>
+<!--end head -->
+
+<body class="bg-theme bg-theme9">
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--start header -->
+		<div th:replace="fragments/header :: header"></div>
+		<!--end header -->
+		<!--navigation-->
+		<div th:replace="fragments/nav :: nav"></div>
+		<!--end navigation-->
+
+
+
+
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">Postes</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Liste des Postes :</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						<div class="btn-group">
+							
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+								<i class="bx bx-add-to-queue"> Ajouter</i></button> 
+						
+						</div>
+					</div>
+				</div>
+
+				<!-- Modal Add-->
+
+				<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+					<div class="modal-dialog modal-fullscreen">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Ajouter un nouveau Poste :</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="col-xl-7 mx-auto">
+								<div class="card">
+									<div class="card-body">
+										<div class="p-4 border rounded">
+											<form class="row g-3 needs-validation" novalidate 
+											action="/savepost" method="get">
+											
+												<div class="col-md-4">
+													<label for="validationCustom01" class="form-label">Titre</label>
+													<input type="text" class="form-control"  name="title" 
+													placeholder="Titre" required>
+													<div class="invalid-feedback">x !</div>
+												</div>
+												<div class="col-md-4">
+													<label for="validationCustom02" class="form-label">Date</label>
+													<input type="date" class="form-control"  name="date" 
+													placeholder="Date" required>
+													<div class="invalid-feedback">x !</div>
+												</div>
+												
+												<div class="col-md-4">
+													<label for="validationCustom04" class="form-label">Category</label>
+													<select class="form-select" name="category" id="select" required>
+														
+														<option value="">Select Category...</option>
+														<option value="News">News</option>
+														<option value="Slider">Slider</option>
+													</select>
+													<div class="invalid-feedback">x !</div>
+												</div>
+
+                                                <div class="col-md-6">
+													<label for="validationCustom04" class="form-label">Status</label>
+													<select class="form-select" name="status" id="select" required>
+														
+														<option value="">Select Status...</option>
+                                                        <option value="true">Published (true)</option>
+                                                        <option value="false">Draft (false)</option>
+													</select>
+													<div class="invalid-feedback">x !</div>
+												</div>
+												
+												<div class="col-md-6">
+													<label for="validationCustom03" class="form-label">Image URL</label>
+													<input type="text" class="form-control" value="../assets/images/news/" name="image_url" 
+													placeholder="Image URL" required>
+													<div class="invalid-feedback">x !</div>
+												</div>	
+                                                <div class="col-12">
+													<label for="validationCustom03" class="form-label">Content</label>
+													
+													
+                                                    <textarea  required class="form-control"  
+                                                    name="content" id="placeTextarea" rows="6" ></textarea>
+                                              
+													<div class="invalid-feedback">x !</div>
+												</div>	
+												
+												
+												
+											
+										</div>
+									</div>
+								</div>
+								</div>
+
+								
+							</div>
+							<div class="modal-footer">
+								<button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+								<button type="submit" class="btn btn-primary">Save</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Modal -->
+
+
+				<!--end breadcrumb-->
+                
+        <div class="card radius-10">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                        <h5 class="mb-0">Table des postes</h5>
+                    </div>
+                    <div class="font-22 ms-auto"><i class='bx bx-dots-horizontal-rounded'></i>
+                    </div>
+                </div>
+                <hr/>
+                <div class="table-responsive">
+					<table id="example2" class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+								
+                                
+                                <th>Titre</th>
+                                <th>Contenu</th>
+                                <th>Date</th>
+                                <th>Categorie</th>
+                                <th>Status</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="news : ${news}">
+
+								<td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="">
+                                            <img  class="center"   style="display:block; margin-left:auto; margin-right:auto;" width="250" height="150"
+                                             th:src="${news.image_url}"  > 
+                                        </div>
+                                        <div class="ms-2">
+                                            <h6 class="mb-1 font-14" th:text="${#strings.abbreviate(news.title,35)}"></h6>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                
+                                
+                                <td th:text="${#strings.abbreviate(news.content,35)}"></td>
+								<td>[[${news.date}]]</td>
+								<td>[[${news.category}]]</td>
+								<td>[[${news.status}]]</td>
+
+
+                                
+                               
+                                <td>
+                                    <div class="d-flex order-actions">	
+										<button type="button" class="btn btn-warning" data-bs-toggle="modal"
+														th:attr="data-bs-target='#editModal'+*{news.id}">
+															<i class="bx bx-cog"></i>
+										</button> &ThickSpace;
+
+										<button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+														th:attr="data-bs-target='#deleteModal'+*{news.id}">
+														<i class='bx bx-shield-x'></i>
+															
+										</button>
+
+										<!-- Modal Delete-->
+										<div class="modal fade" th:id="*{'deleteModal'+{news.id}}" tabindex="-1" aria-hidden="true">
+											<div class="modal-dialog modal-sm">
+												<div class="modal-content bg-danger">
+													<div class="modal-header">
+														<h5 class="modal-title">Confirmation :</h5>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">Warning! : This item will</br>be deleted permanently!!</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+														<form action="/deletepost">  
+															<input type="hidden" name="id" th:value="${news.id}" />
+														<input type="submit" class="btn btn-dark" value="Supprimer" />
+														
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- End Modal -->
+
+
+										<!-- Modal Edit-->
+
+											<div class="modal fade" th:id="*{'editModal'+{news.id}}" tabindex="-1" aria-hidden="true">
+												<div class="modal-dialog modal-fullscreen">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title">Modifier un Poste :</h5>
+															<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body">
+															<div class="col-xl-7 mx-auto">
+															<div class="card">
+																<div class="card-body">
+																	<div class="p-4 border rounded">
+																		<form class="row g-3 needs-validation" novalidate 
+																		action="/updateposte" method="get">
+																		<div class="form-label">
+
+																			<input  type="hidden" th:value="${news.id}" class="form-control" id="id" name="id"/>
+																		</div>
+																			<div class="col-md-4">
+																				<label for="validationCustom01" class="form-label">Titre</label>
+																				<input type="text" class="form-control" th:value="${news.title}" name="title" 
+																				id="title"  required>
+																				<div class="invalid-feedback">x !</div>
+																			</div>
+                                                                           
+                                                                            <div class="col-md-4">
+                                                                                <label for="validationCustom02" class="form-label">Date</label>
+                                                                                <input type="date" class="form-control" th:value="${news.date}" name="date" 
+                                                                                 required>
+                                                                                <div class="invalid-feedback">x !</div>
+                                                                            </div>
+                                                                            
+                                                                            <div class="col-md-4">
+                                                                                <label for="validationCustom04" class="form-label">Category</label>
+                                                                                <select class="form-select" name="category" id="select" required>
+                                                                                    
+                                                                                    <option  th:value="${news.category}" th:text="'Default : ' +   ${news.category} " > </option>
+                                                                                    <option value="News">News</option>
+                                                                                    <option value="Slider">Slider</option>
+                                                                                </select>
+                                                                                <div class="invalid-feedback">x !</div>
+                                                                            </div>
+                            
+                                                                            <div class="col-md-6">
+                                                                                <label for="validationCustom04" class="form-label">Status</label>
+                                                                                <select class="form-select" name="status" id="select" required>
+                                                                                    
+                                                                                    <option  th:value="${news.status}" th:text="'Default : ' +   ${news.status} " > </option>
+                                                                                    <option value="true">Published</option>
+                                                                                    <option value="false">Draft</option>
+                                                                                </select>
+                                                                                <div class="invalid-feedback">x !</div>
+                                                                            </div>
+                                                                            
+                                                                            <div class="col-md-6">
+                                                                                <label for="validationCustom03" class="form-label">Image URL</label>
+                                                                                <input type="text" class="form-control" th:value="${news.image_url}" name="image_url" 
+                                                                                 required>
+                                                                                <div class="invalid-feedback">x !</div>
+                                                                            </div>	
+                                                                            <div class="col-12">
+                                                                                <label for="validationCustom03" class="form-label">Content</label>
+                                                                                
+                                                                                
+                                                                                <textarea  required class="form-control"  
+                                                                                th:text="${news.content}" name="content" id="placeTextarea" rows="6" ></textarea>
+                                                                          
+                                                                                <div class="invalid-feedback">x !</div>
+                                                                            </div>	
+																			
+																			
+																			
+																		
+																	</div>
+																</div>
+															</div>
+															</div>
+
+															
+														</div>
+														<div class="modal-footer">
+															<button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+															<button type="submit" class="btn btn-primary">Save</button>
+														</form>
+														</div>
+													</div>
+												</div>
+											</div>
+										<!-- End Modal -->
+
+                                    </div>
+                                </td>
+                            </tr>
+                         
+                        </tbody>
+						<tfoot>
+											
+							<tr>
+								
+								
+                                <th>Titre</th>
+                                <th>Contenu</th>
+                                <th>Date</th>
+                                <th>Categorie</th>
+                                <th>Status</th>
+                                <th>#</th>
+							</tr>
+						</tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+    
+    </div>
+    </div>
+<!--end page wrapper -->
+
+
+
+
+
+
+
+
+<!--start overlay-->
+<div class="overlay toggle-icon"></div>
+<!--end overlay-->
+<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+<!--End Back To Top Button-->
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer -->
+
+</div>
+<!--end wrapper-->
+
+
+
+	<!-- Bootstrap JS -->
+	<script src="assets/js/bootstrap.bundle.min.js"></script>
+	<!--plugins-->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/plugins/simplebar/js/simplebar.min.js"></script>
+	<script src="assets/plugins/metismenu/js/metisMenu.min.js"></script>
+	<script src="assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+
+	<script src="assets/plugins/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="assets/plugins/datatable/js/dataTables.bootstrap5.min.js"></script>
+	<!--app JS-->
+	<script src="assets/js/app.js"></script>
+
+	<script>
+		$(document).ready(function() {
+			var table = $('#example2').DataTable( {
+				lengthChange: true,
+				
+			} );
+		
+			table.buttons().container()
+				.appendTo( '#example2_wrapper .col-md-6:eq(0)' );
+		} );
+	</script>
+	
+
+
+</body>
+
+</html>
